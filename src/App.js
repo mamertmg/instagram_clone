@@ -20,7 +20,7 @@ export default function App() {
           <Routes>
             <Route path={ROUTES.LOGIN} element={<Login/>} exact/>
             <Route path={ROUTES.SIGN_UP} element={<SignUp/>} exact/>
-            <Route path={ROUTES.DASHBOARD} element={<Dashboard/>} exact/>
+            <Route path={ROUTES.DASHBOARD} element={<Dashboard user={user}/>} exact/>
             <Route element={<NotFound/>} />
           </Routes>
         </Suspense>

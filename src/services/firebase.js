@@ -52,8 +52,6 @@ export async function getSuggestedProfiles(userId, following) {
   }
   const querySnapshot = await getDocs(q);
 
-  console.log(querySnapshot)
-
   const profiles = querySnapshot.docs.map((user) => ({
     ...user.data(),
     docId: user.id

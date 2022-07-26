@@ -10,7 +10,7 @@ export default function Suggestions({ userId, following, loggedInUserDocId }) {
   const [profiles, setProfiles] = useState(null);
 
   useEffect(() => {
-    async function suggestedProfiles() {
+    async function suggestedProfiles() { 
       const response = await getSuggestedProfiles(userId, following);
       setProfiles(response);
     }
@@ -19,13 +19,6 @@ export default function Suggestions({ userId, following, loggedInUserDocId }) {
       suggestedProfiles();
     }
   }, [userId]);
-  // hint: use the firebase service (call using userId)
-  // getSuggestedProfiles
-  // call the async function ^^^^ within useEffect
-  // store it in state
-  // go ahead and render (wait on the profiles as in 'skeleton')
-
-  console.log(profiles)
 
   return !profiles ? (
     <Skeleton count={1} height={150} className="mt-5" />
@@ -34,7 +27,7 @@ export default function Suggestions({ userId, following, loggedInUserDocId }) {
       <div className="text-sm flex items-center align-items justify-between mb-2">
         <p className="font-bold text-gray-base">Suggestions for you</p>
       </div>
-{/*       <div className="mt-4 grid gap-5">
+      <div className="mt-4 grid gap-5">
         {profiles.map((profile) => (
           <SuggestedProfile
             key={profile.docId}
@@ -45,7 +38,7 @@ export default function Suggestions({ userId, following, loggedInUserDocId }) {
             loggedInUserDocId={loggedInUserDocId}
           />
         ))}
-      </div> */}
+      </div>
     </div>
   ) : null;
 }
