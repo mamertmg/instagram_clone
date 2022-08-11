@@ -68,13 +68,9 @@ export async function updateLoggedInUserFollowing(
 
   const docRef = doc(db, "users",loggedInUserDocId);
 
-  updateDoc(docRef, {
-      following: isFollowingProfile ?
-        FieldValue.arrayRemove(profileId) :
-        FieldValue.arrayUnion(profileId)
-  });
+  updateDoc(docRef, {following: isFollowingProfile ? FieldValue.arrayRemove(profileId) : FieldValue.arrayUnion(profileId)});
 
-    return
+  return
 }
 
 export async function updateFollowedUserFollowers(
@@ -85,11 +81,7 @@ export async function updateFollowedUserFollowers(
 
   const docRef = doc(db, "users",profileDocId);
 
-  updateDoc(docRef, {
-    following: isFollowingProfile ?
-      FieldValue.arrayRemove(loggedInUserDocId) :
-      FieldValue.arrayUnion(loggedInUserDocId)
-  });
+  updateDoc(docRef, {following: isFollowingProfile ? FieldValue.arrayRemove(loggedInUserDocId) : FieldValue.arrayUnion(loggedInUserDocId)});
 
   return 
 }
@@ -139,14 +131,13 @@ export async function getUserPhotosByUserId(userId) {
 }
 
 export async function isUserFollowingProfile(loggedInUserUsername, profileUserId) {
-  const result = await db
-    .firestore()
-    .collection('users')
-    .where('username', '==', loggedInUserUsername) // karl (active logged in user)
-    .where('following', 'array-contains', profileUserId)
-    .get();
+  
+  const colRef = collection(db, "users");
+  const q = query(colRef, where('username', '==', loggedInUserUsername),where('following', 'array-contains', profileUserId))
+  
+  const querySnapshot = await getDocs(q);
 
-  const [response = {}] = result.docs.map((item) => ({
+  const [response = {}] = querySnapshot.docs.map((item) => ({
     ...item.data(),
     docId: item.id
   }));
